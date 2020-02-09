@@ -1,6 +1,6 @@
+import $ from 'jquery';
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-undef */
-import $ from 'jquery';
 
 // FIRST WAY
 // (function runFreshJS() {
