@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-restricted-globals */
 import $ from 'jquery';
-
 $(document).ready(function() {
 	//Preloader
 	$(window).on('load', function() {
@@ -14,7 +12,9 @@ $(document).ready(function() {
 			.fadeOut('slow'); // will fade out the white DIV that covers the website.
 		$('body')
 			.delay(350)
-			.css({ overflow: 'visible' });
+			.css({
+				overflow: 'visible'
+			});
 	});
 
 	//Mobile menu toggle
@@ -85,6 +85,7 @@ $(document).ready(function() {
 	//reveal elements on scroll so animations trigger the right way
 	var $window = $(window),
 		win_height_padded = $window.height() * 1.1,
+		// eslint-disable-next-line no-unused-vars
 		isTouch = Modernizr.touch;
 
 	$window.on('scroll', revealOnScroll);

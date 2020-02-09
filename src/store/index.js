@@ -1,3 +1,25 @@
+import { createStore, combineReducers } from 'redux';
+
+// REDUX THINGS TO REMEMBER
+// actions | action creators
+// dispatch
+// reducers
+// connect
+
+// FUNCTION TO CREATE THE STORE
+const createdStore = () => {
+	const serviceApp = combineReducers({
+		service: () => ({ testingData: 'Hello World', testingNumber: 10 })
+	});
+
+	const store = createStore(serviceApp);
+
+	return store;
+};
+
+export default createdStore;
+
+// STATIC SERVICES
 const services = [
 	{
 		id: '2asd8sa7d98',

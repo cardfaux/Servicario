@@ -1,23 +1,34 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import createdStore from './store/index';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import HomePage from './pages/Home';
 import FAQ from './pages/FAQ';
 import Profile from './pages/Profile';
 import Services from './pages/Services';
-import Sidebar from './components/Sidebar';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
+import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
-import NavbarClone from './components/NavbarClone';
+
+const store = createdStore();
 
 function App() {
 	return (
-		<div>
+		<Provider store={store}>
 			<Router>
 				<Navbar />
-				<NavbarClone />
+				<Navbar id='navbar-clone' />
 				<Sidebar />
 				<Switch>
+					<Route path='/register'>
+						<Register />
+					</Route>
+					<Route path='/login'>
+						<Login />
+					</Route>
 					<Route path='/services'>
 						<Services />
 					</Route>
@@ -32,7 +43,7 @@ function App() {
 					</Route>
 				</Switch>
 			</Router>
-		</div>
+		</Provider>
 	);
 }
 
