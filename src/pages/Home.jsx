@@ -3,6 +3,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import NavbarClone from '../components/NavbarClone';
+import ServiceItem from '../components/service/ServiceItem';
 
 import { getServices } from '../store';
 
@@ -18,27 +19,7 @@ class Home extends React.Component {
 
 	renderServices = (services) => {
 		return services.map((service) => (
-			<div key={service.id} className='column is-one-third'>
-				<div
-					className='feature-card is-bordered has-text-centered revealOnScroll delay-1'
-					data-animation='fadeInLeft'
-				>
-					<div className='card-title'>
-						<h4>{service.title}</h4>
-					</div>
-					<div className='card-icon'>
-						<img src={service.image} alt='' />
-					</div>
-					<div className='card-text'>
-						<p>{service.description}</p>
-					</div>
-					<div className='card-action'>
-						<a href='#' className='button btn-align-md accent-btn raised'>
-							Learn More
-						</a>
-					</div>
-				</div>
-			</div>
+			<ServiceItem key={service.id} service={service} />
 		));
 	};
 
