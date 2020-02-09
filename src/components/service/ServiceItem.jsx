@@ -1,6 +1,18 @@
 import React from 'react';
 
 const ServiceItem = ({ service }) => {
+	// HELPER FUNCTION
+	const shortText = (text, maxLength = 50) => {
+		if (!text) {
+			return '';
+		}
+		if (text.length <= maxLength) {
+			return text;
+		}
+
+		return text.substr(0, maxLength) + '...';
+	};
+
 	return (
 		<div key={service.id} className='column is-one-third'>
 			<div
@@ -14,7 +26,7 @@ const ServiceItem = ({ service }) => {
 					<img src={service.image} alt='' />
 				</div>
 				<div className='card-text'>
-					<p>{service.description}</p>
+					<p>{shortText(service.description)}</p>
 				</div>
 				<div className='card-action'>
 					<a href='!#' className='button btn-align-md accent-btn raised'>

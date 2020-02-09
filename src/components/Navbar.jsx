@@ -12,7 +12,7 @@ const Navbar = () => {
 			<div className='container'>
 				<div className='navbar-brand'>
 					<a className='navbar-item' href='https://cssninja.io'>
-						<div className='title'>Servicio</div>
+						<div className='title'>Servicario</div>
 					</a>
 
 					<a className='navbar-item is-hidden-desktop is-hidden-tablet'>
