@@ -1,5 +1,5 @@
-import { createStore, combineReducers } from 'redux';
-import servicesReducer from '../reducers/index';
+import { createStore } from 'redux';
+import serviceApp from '../reducers/index';
 
 const logger = (store) => {
 	return (nextDispatch) => {
@@ -39,9 +39,6 @@ const applyMiddlewares = (store, middlewares) => {
 // FUNCTION TO CREATE THE STORE
 const createdStore = () => {
 	const middlewares = [promise];
-	const serviceApp = combineReducers({
-		service: servicesReducer
-	});
 
 	const browserSupport =
 		window.__REDUX_DEVTOOLS_EXTENSION__ &&

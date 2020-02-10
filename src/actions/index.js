@@ -1,4 +1,4 @@
-import { FETCH_SERVICES_SUCCESS } from '../types/index';
+import { FETCH_SERVICES_SUCCESS, FETCH_SERVICE_SUCCESS } from '../types/index';
 
 import db from '../db/index';
 
@@ -15,6 +15,19 @@ export const fetchServices = () => {
 			return {
 				type: FETCH_SERVICES_SUCCESS,
 				services: services
+			};
+		});
+};
+
+export const fetchServicesById = (serviceId) => {
+	return db
+		.collection('services')
+		.doc(serviceId)
+		.get()
+		.then((snapshot) => {
+			return {
+				type: FETCH_SERVICE_SUCCESS,
+				service: { id: snapshot.id, ...snapshot.data() }
 			};
 		});
 };

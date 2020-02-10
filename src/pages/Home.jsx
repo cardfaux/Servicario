@@ -1,6 +1,7 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
+
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'; // HOC
 import Hero from '../components/Hero';
 import ServiceItem from '../components/service/ServiceItem';
 
@@ -12,23 +13,19 @@ class Home extends React.Component {
 	};
 
 	componentDidMount() {
-		// FETCHSERVICES IS A ACTION CREATOR, DISPATCH IS AVAILABLE FRO CONNECT
-		this.props.dispatch(fetchServices());
+		this.props.fetchServices();
 	}
 
-	renderServices = (services) => {
-		return services.map((service) => (
+	renderServices = (services) =>
+		services.map((service) => (
 			<ServiceItem key={service.id} service={service} />
 		));
-	};
 
 	render() {
 		const { services } = this.props;
-
 		return (
 			<div>
 				<Hero />
-
 				<section className='section section-feature-grey is-medium'>
 					<div className='container'>
 						<div className='title-wrapper has-text-centered'>
@@ -40,7 +37,9 @@ class Home extends React.Component {
 						</div>
 
 						<div className='content-wrapper'>
-							<div className='columns'>{this.renderServices(services)}</div>
+							<div className='columns is-multiline'>
+								{this.renderServices(services)}
+							</div>
 						</div>
 					</div>
 				</section>
@@ -49,8 +48,6 @@ class Home extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
-	services: state.service.items
-});
+const mapStateToProps = (state) => ({ services: state.services.all });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, { fetchServices })(Home);

@@ -7,6 +7,7 @@ import HomePage from './pages/Home';
 import FAQ from './pages/FAQ';
 import Profile from './pages/Profile';
 import Services from './pages/Services';
+import ServiceDetail from './pages/ServiceDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -28,6 +29,9 @@ function App() {
 					</Route>
 					<Route path='/login'>
 						<Login />
+					</Route>
+					<Route path='/services/:serviceId'>
+						<ServiceDetail />
 					</Route>
 					<Route path='/services'>
 						<Services />
