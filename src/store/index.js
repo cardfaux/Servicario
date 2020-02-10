@@ -15,16 +15,12 @@ const logger = (store) => {
 	};
 };
 
-const promise = (store) => {
-	return (nextDispatch) => {
-		return (action) => {
-			if (typeof action.then === 'function') {
-				return action.then(nextDispatch);
-			}
-
-			return nextDispatch(action);
-		};
-	};
+const thunk = (store) => (nextDispatch) => (action) => {
+	if (typeof action === 'function') {
+		return action(store.dispatch);
+	} else {
+		return nextDispatch(action);
+	}
 };
 
 const applyMiddlewares = (store, middlewares) => {
@@ -38,7 +34,7 @@ const applyMiddlewares = (store, middlewares) => {
 
 // FUNCTION TO CREATE THE STORE
 const createdStore = () => {
-	const middlewares = [promise];
+	const middlewares = [thunk];
 
 	const browserSupport =
 		window.__REDUX_DEVTOOLS_EXTENSION__ &&
