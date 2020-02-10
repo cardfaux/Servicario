@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-restricted-globals */
-import $ from 'jquery';
 $(document).ready(function() {
 	//Preloader
 	$(window).on('load', function() {

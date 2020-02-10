@@ -1,10 +1,10 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
-
 import React from 'react';
+import { connect } from 'react-redux';
 import Hero from '../components/Hero';
 import ServiceItem from '../components/service/ServiceItem';
 
-import { getServices } from '../store';
+import { fetchServices } from '../actions/index';
 
 class Home extends React.Component {
 	state = {
@@ -12,8 +12,8 @@ class Home extends React.Component {
 	};
 
 	componentDidMount() {
-		const services = getServices();
-		this.setState({ services: services });
+		// FETCHSERVICES IS A ACTION CREATOR, DISPATCH IS AVAILABLE FRO CONNECT
+		this.props.dispatch(fetchServices());
 	}
 
 	renderServices = (services) => {
@@ -23,7 +23,7 @@ class Home extends React.Component {
 	};
 
 	render() {
-		const { services } = this.state;
+		const { services } = this.props;
 
 		return (
 			<div>
@@ -49,4 +49,8 @@ class Home extends React.Component {
 	}
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+	services: state.service.items
+});
+
+export default connect(mapStateToProps)(Home);
