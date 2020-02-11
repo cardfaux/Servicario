@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ToastProvider } from 'react-toast-notifications';
 import createdStore from './store/index';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -19,34 +20,36 @@ const store = createdStore();
 function App() {
 	return (
 		<Provider store={store}>
-			<Router>
-				<Navbar />
-				<Navbar id='navbar-clone' />
-				<Sidebar />
-				<Switch>
-					<Route path='/register'>
-						<Register />
-					</Route>
-					<Route path='/login'>
-						<Login />
-					</Route>
-					<Route path='/services/:serviceId'>
-						<ServiceDetail />
-					</Route>
-					<Route path='/services'>
-						<Services />
-					</Route>
-					<Route path='/profile'>
-						<Profile />
-					</Route>
-					<Route path='/faq'>
-						<FAQ />
-					</Route>
-					<Route path='/'>
-						<HomePage />
-					</Route>
-				</Switch>
-			</Router>
+			<ToastProvider>
+				<Router>
+					<Navbar />
+					<Navbar id='navbar-clone' />
+					<Sidebar />
+					<Switch>
+						<Route path='/register'>
+							<Register />
+						</Route>
+						<Route path='/login'>
+							<Login />
+						</Route>
+						<Route path='/services/:serviceId'>
+							<ServiceDetail />
+						</Route>
+						<Route path='/services'>
+							<Services />
+						</Route>
+						<Route path='/profile'>
+							<Profile />
+						</Route>
+						<Route path='/faq'>
+							<FAQ />
+						</Route>
+						<Route path='/'>
+							<HomePage />
+						</Route>
+					</Switch>
+				</Router>
+			</ToastProvider>
 		</Provider>
 	);
 }

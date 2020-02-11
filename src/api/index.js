@@ -54,3 +54,10 @@ export const register = async ({ email, password, fullName, avatar }) => {
 		return Promise.reject(errorMessage);
 	}
 };
+
+export const login = ({ email, password }) => {
+	return firebase
+		.auth()
+		.signInWithEmailAndPassword(email, password)
+		.catch((error) => Promise.reject(error.message));
+};

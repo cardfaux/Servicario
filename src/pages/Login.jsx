@@ -1,7 +1,40 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useToasts } from 'react-toast-notifications';
+import { Redirect } from 'react-router-dom';
+
+import { login } from '../actions/index';
 
 const Login = () => {
+	const [redirect, setRedirect] = useState(false);
+	const { register, handleSubmit } = useForm();
+	const { addToast } = useToasts();
+
+	const onLogin = (loginData) => {
+		login(loginData).then(
+			(_) => {
+				setRedirect(true);
+				addToast('You Have Successfully Logged In', {
+					appearance: 'success',
+					autoDismiss: true,
+					autoDismissTimeout: 3000
+				});
+			},
+			(errorMessage) => {
+				addToast(errorMessage, {
+					appearance: 'error',
+					autoDismiss: true,
+					autoDismissTimeout: 3000
+				});
+			}
+		);
+	};
+
+	if (redirect) {
+		return <Redirect to='/' />;
+	}
+
 	return (
 		<div className='auth-page'>
 			<div className='container has-text-centered'>
@@ -12,38 +45,33 @@ const Login = () => {
 						<figure className='avatar'>
 							<img src='https://placehold.it/128x128' alt='description' />
 						</figure>
-						<form>
+						<form onSubmit={handleSubmit(onLogin)}>
 							<div className='field'>
 								<div className='control'>
 									<input
+										ref={register}
+										name='email'
 										className='input is-large'
 										type='email'
 										placeholder='Your Email'
 										autoComplete='email'
 									/>
-									<div className='form-error'>
-										<span className='help is-danger'>Email is required</span>
-										<span className='help is-danger'>
-											Email address is not valid
-										</span>
-									</div>
 								</div>
 							</div>
 							<div className='field'>
 								<div className='control'>
 									<input
+										ref={register}
+										name='password'
 										className='input is-large'
 										type='password'
 										placeholder='Your Password'
 										autoComplete='current-password'
 									/>
-									<div className='form-error'>
-										<span className='help is-danger'>Password is required</span>
-									</div>
 								</div>
 							</div>
 							<button
-								type='button'
+								type='submit'
 								className='button is-block is-info is-large is-fullwidth'
 							>
 								Sign In

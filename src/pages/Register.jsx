@@ -1,19 +1,37 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
 import { register } from '../actions/index';
 import RegisterForm from '../components/auth/RegisterForm';
+import { useToasts } from 'react-toast-notifications';
+
+import { Redirect } from 'react-router-dom';
 
 const Register = (props) => {
+	const [redirect, setRedirect] = useState(false);
+	const { addToast } = useToasts();
+
 	const registerUser = (userData) => {
 		register(userData).then(
 			(_) => {
-				return true;
+				setRedirect(true);
+				addToast('You Have Successfully Registered', {
+					appearance: 'success',
+					autoDismiss: true,
+					autoDismissTimeout: 3000
+				});
 			},
-			(errorMessage) => {
-				return errorMessage;
-			}
+			(errorMessage) =>
+				addToast(errorMessage, {
+					appearance: 'error',
+					autoDismiss: true,
+					autoDismissTimeout: 3000
+				})
 		);
 	};
+
+	if (redirect) {
+		return <Redirect to='/' />;
+	}
 
 	return (
 		<div className='auth-page'>
