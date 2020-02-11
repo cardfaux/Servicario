@@ -2,7 +2,8 @@ import {
 	FETCH_SERVICES_SUCCESS,
 	FETCH_SERVICE_SUCCESS,
 	REQUEST_SERVICE,
-	SET_AUTH_USER
+	SET_AUTH_USER,
+	RESET_AUTH_STATE
 } from '../types/index';
 
 import * as api from '../api/index';
@@ -40,6 +41,12 @@ export const login = (loginData) => {
 	return api.login({ ...loginData });
 };
 
+export const logout = () => (dispatch) => {
+	return api
+		.logout()
+		.then((_) => dispatch({ user: null, type: SET_AUTH_USER }));
+};
+
 export const onAuthStateChange = (onAuthCallback) => {
 	return api.onAuthStateChange(onAuthCallback);
 };
@@ -54,3 +61,5 @@ export const storeAuthUser = (authUser) => (dispatch) => {
 		return dispatch({ user: null, type: SET_AUTH_USER });
 	}
 };
+
+export const resetAuthState = () => ({ type: RESET_AUTH_STATE });

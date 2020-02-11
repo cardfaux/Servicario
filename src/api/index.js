@@ -62,6 +62,8 @@ export const login = ({ email, password }) => {
 		.catch((error) => Promise.reject(error.message));
 };
 
+export const logout = () => firebase.auth().signOut();
+
 export const onAuthStateChange = (onAuthCallback) => {
 	return firebase.auth().onAuthStateChanged(onAuthCallback);
 };
