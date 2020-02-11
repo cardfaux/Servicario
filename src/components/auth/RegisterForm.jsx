@@ -2,8 +2,10 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { isValidImage, isValidUrl, sameAs } from '../../helpers/validators';
+
 const RegisterForm = () => {
-	const { register, handleSubmit, errors } = useForm();
+	const { register, handleSubmit, errors, getValues } = useForm();
 
 	const getFormData = (data) => {
 		console.log(data);
@@ -66,7 +68,7 @@ const RegisterForm = () => {
 					<input
 						ref={register({
 							required: true,
-							pattern: /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm
+							validate: { isValidImage, isValidUrl }
 						})}
 						name='avatar'
 						className='input is-large'
@@ -78,7 +80,12 @@ const RegisterForm = () => {
 							{errors.avatar.type === 'required' && (
 								<span className='help is-danger'>Avatar is required</span>
 							)}
-							{errors.avatar.type === 'pattern' && (
+							{errors.avatar.type === 'isValidImage' && (
+								<span className='help is-danger'>
+									Avatart extension is not valid
+								</span>
+							)}
+							{errors.avatar.type === 'isValidUrl' && (
 								<span className='help is-danger'>Avatart url is not valid</span>
 							)}
 						</div>
@@ -112,7 +119,11 @@ const RegisterForm = () => {
 			<div className='field'>
 				<div className='control'>
 					<input
-						ref={register({ required: true, minLength: 6 })}
+						ref={register({
+							required: true,
+							minLength: 6,
+							validate: { sameAs: sameAs(getValues, 'password') }
+						})}
 						name='passwordConfirmation'
 						className='input is-large'
 						type='password'
@@ -129,6 +140,11 @@ const RegisterForm = () => {
 							{errors.password.type === 'minLength' && (
 								<span className='help is-danger'>
 									Minimum Length Is 6 Characters
+								</span>
+							)}
+							{errors.password.type === 'sameAs' && (
+								<span className='help is-danger'>
+									Password Confirmation Is Not The Same As Password
 								</span>
 							)}
 						</div>
