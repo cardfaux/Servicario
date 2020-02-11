@@ -26,14 +26,29 @@ export const fetchServices = () => {
 };
 
 // ------------------------------------AUTH -------------------------------------------------
+const createUserProfile = (userProfile) => {
+	return db
+		.collection('profile')
+		.doc(userProfile.uid)
+		.set(userProfile);
+};
+
 export const register = async ({ email, password, fullName, avatar }) => {
 	try {
 		const res = await firebase
 			.auth()
 			.createUserWithEmailAndPassword(email, password);
 		const { user } = res;
-		console.log(user);
-		return true;
+		const userProfile = {
+			uid: user.uid,
+			fullName,
+			email,
+			avatar,
+			services: [],
+			description: ''
+		};
+		await createUserProfile(userProfile);
+		return userProfile;
 	} catch (error) {
 		const errorMessage = error.message;
 		return Promise.reject(errorMessage);
