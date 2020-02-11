@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
@@ -6,11 +7,11 @@ import Navbar from './components/Navbar';
 import Routes from './Routes';
 
 export class ServiceApp extends Component {
-	renderApplication() {
+	renderApplication(auth) {
 		return (
 			<React.Fragment>
-				<Navbar />
-				<Navbar id='navbar-clone' />
+				<Navbar auth={auth} />
+				<Navbar auth={auth} id='navbar-clone' />
 				<Sidebar />
 				<Routes />
 			</React.Fragment>
@@ -18,8 +19,15 @@ export class ServiceApp extends Component {
 	}
 
 	render() {
-		return this.renderApplication();
+		const { auth } = this.props;
+		return this.renderApplication(auth);
 	}
 }
 
-export default ServiceApp;
+const mapStateToProps = (state) => {
+	return {
+		auth: state.auth
+	};
+};
+
+export default connect(mapStateToProps)(ServiceApp);

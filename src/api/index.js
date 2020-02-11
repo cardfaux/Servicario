@@ -28,7 +28,7 @@ export const fetchServices = () => {
 // ------------------------------------AUTH -------------------------------------------------
 const createUserProfile = (userProfile) => {
 	return db
-		.collection('profile')
+		.collection('profiles')
 		.doc(userProfile.uid)
 		.set(userProfile);
 };
@@ -61,3 +61,14 @@ export const login = ({ email, password }) => {
 		.signInWithEmailAndPassword(email, password)
 		.catch((error) => Promise.reject(error.message));
 };
+
+export const onAuthStateChange = (onAuthCallback) => {
+	return firebase.auth().onAuthStateChanged(onAuthCallback);
+};
+
+export const getUserProfile = (uid) =>
+	db
+		.collection('profiles')
+		.doc(uid)
+		.get()
+		.then((snapshot) => ({ uid, ...snapshot.data() }));

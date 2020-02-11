@@ -1,7 +1,8 @@
 import {
 	FETCH_SERVICES_SUCCESS,
 	FETCH_SERVICE_SUCCESS,
-	REQUEST_SERVICE
+	REQUEST_SERVICE,
+	SET_AUTH_USER
 } from '../types/index';
 
 import * as api from '../api/index';
@@ -37,4 +38,19 @@ export const register = (registerFormData) => {
 
 export const login = (loginData) => {
 	return api.login({ ...loginData });
+};
+
+export const onAuthStateChange = (onAuthCallback) => {
+	return api.onAuthStateChange(onAuthCallback);
+};
+
+export const storeAuthUser = (authUser) => (dispatch) => {
+	if (authUser) {
+		return api.getUserProfile(authUser.uid).then((userWithProfile) => {
+			dispatch({ user: userWithProfile, type: SET_AUTH_USER });
+			return userWithProfile;
+		});
+	} else {
+		return dispatch({ user: null, type: SET_AUTH_USER });
+	}
 };
