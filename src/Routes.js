@@ -9,6 +9,7 @@ import ServiceDetail from './pages/ServiceDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Secret from './pages/Secret';
+import ServiceCreate from './pages/services/ServiceCreate';
 
 const Routes = () => {
 	return (
@@ -21,6 +22,9 @@ const Routes = () => {
 			</Route>
 			<Route path='/login'>
 				<Login />
+			</Route>
+			<Route path='/services/new'>
+				<ServiceCreate />
 			</Route>
 			<Route path='/services/:serviceId'>
 				<ServiceDetail />
