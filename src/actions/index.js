@@ -8,6 +8,7 @@ import {
 
 import * as api from '../api/index';
 
+//-------------------------SERVICES STARTS---------------------------
 export const fetchServices = () => (dispatch) => {
 	return api.fetchServices().then((services) =>
 		dispatch({
@@ -32,6 +33,16 @@ export const fetchServicesById = (serviceId) => (dispatch, getState) => {
 		})
 	);
 };
+
+export const createService = (newService, userId) => {
+	newService.price = parseInt(newService.price, 10);
+	newService.user = userId;
+
+	return api.createService(newService);
+};
+//---------------------------------SERVICES ENDS---------------------------
+
+// ------------------AUTH STARTS-------------------------------------
 
 export const register = (registerFormData) => {
 	return api.register({ ...registerFormData });
@@ -62,3 +73,5 @@ export const storeAuthUser = (authUser) => (dispatch) => {
 		return dispatch({ user: null, type: SET_AUTH_USER });
 	}
 };
+
+//---------------------------AUTH ENDS-------------------------------
