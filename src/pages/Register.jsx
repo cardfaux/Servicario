@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { register } from '../actions/index';
 import RegisterForm from '../components/auth/RegisterForm';
 import { useToasts } from 'react-toast-notifications';
+import onlyGuest from '../components/hoc/onlyGuest';
 
 import { Redirect } from 'react-router-dom';
 
@@ -56,4 +57,4 @@ const Register = (props) => {
 	);
 };
 
-export default Register;
+export default onlyGuest(Register);

@@ -1,13 +1,13 @@
 import React from 'react';
-
 import withAuthorization from '../components/hoc/withAuthorization';
 
-const FAQ = () => {
+const Secret = (props) => {
+	console.log(props);
 	return (
 		<div>
-			<h1>FAG</h1>
+			<h1>Secret Page</h1>
 		</div>
 	);
 };
 
-export default withAuthorization(FAQ);
+export default withAuthorization(Secret);
