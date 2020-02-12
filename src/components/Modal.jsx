@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Modal = (props) => {
+const Modal = ({ children, openButtonText, onModalSubmit }) => {
 	const [isActive, setIsActive] = useState(false);
 
 	const changeModalState = (modalState) => setIsActive(modalState);
@@ -14,7 +14,7 @@ const Modal = (props) => {
 				data-toggle='modal'
 				data-target='#exampleModal'
 			>
-				{props.openButtonText || 'Open'}
+				{openButtonText || 'Open'}
 			</button>
 			<div className={`modal ${isActive ? 'is-active' : ''}`}>
 				<div className='modal-background'></div>
@@ -27,11 +27,11 @@ const Modal = (props) => {
 							aria-label='close'
 						></button>
 					</header>
-					<section className='modal-card-body'>
-						<h1>Hello I am Modal! (:</h1>
-					</section>
+					<section className='modal-card-body'>{children}</section>
 					<footer className='modal-card-foot'>
-						<button className='button is-success'>Save changes</button>
+						<button onClick={onModalSubmit} className='button is-success'>
+							Save changes
+						</button>
 						<button onClick={() => changeModalState(false)} className='button'>
 							Cancel
 						</button>
