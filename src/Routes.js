@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Secret from './pages/Secret';
 import ServiceCreate from './pages/services/ServiceCreate';
+import UserServices from './pages/services/UserServices';
 
 const Routes = () => {
 	return (
@@ -22,6 +23,9 @@ const Routes = () => {
 			</Route>
 			<Route path='/login'>
 				<Login />
+			</Route>
+			<Route path='/services/me'>
+				<UserServices />
 			</Route>
 			<Route path='/services/new'>
 				<ServiceCreate />

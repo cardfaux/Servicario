@@ -3,7 +3,8 @@ import {
 	FETCH_SERVICE_SUCCESS,
 	REQUEST_SERVICE,
 	SET_AUTH_USER,
-	RESET_AUTH_STATE
+	RESET_AUTH_STATE,
+	FETCH_USER_SERVICES_SUCCESS
 } from '../types/index';
 
 import * as api from '../api/index';
@@ -17,6 +18,13 @@ export const fetchServices = () => (dispatch) => {
 		})
 	);
 };
+
+export const fetchUserServices = (userId) => (dispatch) =>
+	api
+		.fetchUserServices(userId)
+		.then((services) =>
+			dispatch({ type: FETCH_USER_SERVICES_SUCCESS, services })
+		);
 
 export const fetchServicesById = (serviceId) => (dispatch, getState) => {
 	const lastService = getState().selectedService.item;

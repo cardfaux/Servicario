@@ -2,6 +2,8 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import db from '../db/index';
 
+//const createRef = (collection, docId) => db.doc(`${collection}/` + docId);
+
 // ------------------------------------SERVICES ---------------------------------------------
 
 export const fetchServiceById = (serviceId) =>
@@ -21,6 +23,21 @@ export const fetchServices = () => {
 				...doc.data()
 			}));
 
+			return services;
+		});
+};
+
+export const fetchUserServices = (userId) => {
+	//const userRef = createRef('profiles', userId);
+	return db
+		.collection('services')
+		.where('user', '==', userId)
+		.get()
+		.then((snapshot) => {
+			const services = snapshot.docs.map((doc) => ({
+				id: doc.id,
+				...doc.data()
+			}));
 			return services;
 		});
 };
