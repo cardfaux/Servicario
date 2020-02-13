@@ -33,3 +33,10 @@ export const changeOfferStatus = (offerId, status) => {
 		.doc(offerId)
 		.update({ status });
 };
+
+export const markOfferAsInCollaboration = (offerId) => {
+	return db
+		.collection('offers')
+		.doc(offerId)
+		.update({ collaborationCreated: true });
+};
