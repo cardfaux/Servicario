@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Modal from '../../components/Modal';
+import { useToasts } from 'react-toast-notifications';
+import { createRef, createOffer } from '../../api/index';
 
-const OfferModal = ({ service }) => {
+const OfferModal = ({ service, auth }) => {
+	const { addToast } = useToasts();
 	const [offer, setOffer] = useState({
 		fromUser: '',
 		toUser: '',
@@ -20,8 +23,27 @@ const OfferModal = ({ service }) => {
 		return setOffer({ ...offer, [name]: value });
 	};
 
-	const handleSubmit = () => {
-		alert(JSON.stringify(offer));
+	const handleSubmit = (closeModal) => {
+		const offerCopy = { ...offer };
+
+		offerCopy.fromUser = createRef('profiles', auth.user.uid);
+		offerCopy.toUser = createRef('profiles', service.user.uid);
+		offerCopy.service = createRef('services', service.id);
+		offerCopy.time = parseInt(offer.time, 10);
+
+		createOffer(offerCopy).then(
+			(_) => {
+				closeModal();
+				addToast('Offer Was Successfully Created', {
+					appearance: 'success',
+					autoDismiss: true,
+					autoDismissTimeout: 4000
+				});
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
 	};
 
 	return (

@@ -110,6 +110,12 @@ const Navbar = (props) => {
 									<Link to='/services/me' className='navbar-item'>
 										Your Services
 									</Link>
+									<Link to='/offers/sent' className='navbar-item'>
+										Sent Offers
+									</Link>
+									<Link to='/offers/recieved' className='navbar-item'>
+										Recieved Offers
+									</Link>
 								</div>
 							</div>
 						)}

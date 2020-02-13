@@ -11,6 +11,8 @@ import Register from './pages/Register';
 import Secret from './pages/Secret';
 import ServiceCreate from './pages/services/ServiceCreate';
 import UserServices from './pages/services/UserServices';
+import SentOffers from './pages/offers/SentOffers';
+import RecievedOffers from './pages/offers/RecievedOffers';
 
 const Routes = () => {
 	return (
@@ -23,6 +25,12 @@ const Routes = () => {
 			</Route>
 			<Route path='/login'>
 				<Login />
+			</Route>
+			<Route path='/offers/sent'>
+				<SentOffers />
+			</Route>
+			<Route path='/offers/recieved'>
+				<RecievedOffers />
 			</Route>
 			<Route path='/services/me'>
 				<UserServices />

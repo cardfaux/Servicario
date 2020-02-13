@@ -29,7 +29,10 @@ const Modal = ({ children, openButtonText, onModalSubmit }) => {
 					</header>
 					<section className='modal-card-body'>{children}</section>
 					<footer className='modal-card-foot'>
-						<button onClick={onModalSubmit} className='button is-success'>
+						<button
+							onClick={() => onModalSubmit(() => changeModalState(false))}
+							className='button is-success'
+						>
 							Save changes
 						</button>
 						<button onClick={() => changeModalState(false)} className='button'>
