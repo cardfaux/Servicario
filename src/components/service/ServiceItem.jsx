@@ -1,11 +1,12 @@
+/* eslint jsx-a11y/anchor-is-valid: 0 */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ServiceItem = ({ service }) => {
-	// HELPER FUNCTION
+const ServiceItem = ({ service, children, className, noButton }) => {
 	const shortText = (text, maxLength = 50) => {
 		if (!text) {
-			return '';
+			return ' ';
 		}
 		if (text.length <= maxLength) {
 			return text;
@@ -15,9 +16,9 @@ const ServiceItem = ({ service }) => {
 	};
 
 	return (
-		<div key={service.id} className='column is-one-third'>
+		<div className='column is-one-third'>
 			<div
-				className='feature-card is-bordered has-text-centered revealOnScroll delay-1'
+				className={`feature-card is-bordered has-text-centered revealOnScroll delay-1 ${className}`}
 				data-animation='fadeInLeft'
 			>
 				<div className='card-title'>
@@ -29,14 +30,17 @@ const ServiceItem = ({ service }) => {
 				<div className='card-text'>
 					<p>{shortText(service.description)}</p>
 				</div>
-				<div className='card-action'>
-					<Link
-						to={`/services/${service.id}`}
-						className='button btn-align-md accent-btn raised'
-					>
-						Learn More
-					</Link>
-				</div>
+				{children && <div className='card-text'>{children}</div>}
+				{!noButton && (
+					<div className='card-action'>
+						<Link
+							to={`/services/${service.id}`}
+							className='button btn-align-md accent-btn raised'
+						>
+							Learn More
+						</Link>
+					</div>
+				)}
 			</div>
 		</div>
 	);
