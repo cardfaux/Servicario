@@ -11,4 +11,8 @@ const serviceApp = combineReducers({
 	offers
 });
 
+export const getMessages = (state) => {
+	return state.auth.user.messages;
+};
+
 export default serviceApp;

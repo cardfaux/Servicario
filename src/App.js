@@ -5,7 +5,11 @@ import createdStore from './store/index';
 import { BrowserRouter as Router } from 'react-router-dom';
 import ServiceApp from './ServiceApp';
 
-import { onAuthStateChange, storeAuthUser } from './actions/index';
+import {
+	onAuthStateChange,
+	storeAuthUser,
+	subscribeToMessages
+} from './actions/index';
 
 const store = createdStore();
 
@@ -13,11 +17,18 @@ class App extends React.Component {
 	componentDidMount() {
 		this.unsubscribeAuth = onAuthStateChange((authUser) => {
 			store.dispatch(storeAuthUser(authUser));
+
+			if (authUser) {
+				this.unsubscribeMessages = store.dispatch(
+					subscribeToMessages(authUser.uid)
+				);
+			}
 		});
 	}
 
 	componentWillUnmount() {
 		this.unsubscribeAuth();
+		this.unsubscribeMessages();
 	}
 
 	render() {

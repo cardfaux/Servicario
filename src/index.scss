@@ -29,6 +29,27 @@ $border-grey: #ccc;
 $muted-grey: #999;
 $section-grey: #fbfbfb;
 
+.navbar-dropdown-messages {
+  min-width: 320px !important;
+
+  .from-user {
+    padding-left: 20px;
+    margin-bottom: 10px;
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  hr {
+    margin: 0;
+  }
+
+  .navbar-item-message {
+    white-space: inherit;
+  }
+}
+
 .s-m-r {
   margin-right: 5px;
 }

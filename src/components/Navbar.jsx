@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import RecievedMessages from './RecievedMessages';
 
 const Navbar = (props) => {
 	const { user, isAuth } = props.auth;
@@ -100,24 +101,32 @@ const Navbar = (props) => {
 							FAQ
 						</Link>
 						{isAuth && (
-							<div className='navbar-item has-dropdown is-hoverable'>
-								<a className='navbar-link'>Manage</a>
+							<React.Fragment>
+								<div className='navbar-item has-dropdown is-hoverable'>
+									<a className='navbar-link'>Manage</a>
 
-								<div className='navbar-dropdown'>
-									<Link to='/services/new' className='navbar-item'>
-										Create Service
-									</Link>
-									<Link to='/services/me' className='navbar-item'>
-										Your Services
-									</Link>
-									<Link to='/offers/sent' className='navbar-item'>
-										Sent Offers
-									</Link>
-									<Link to='/offers/recieved' className='navbar-item'>
-										Recieved Offers
-									</Link>
+									<div className='navbar-dropdown'>
+										<Link to='/services/new' className='navbar-item'>
+											Create Service
+										</Link>
+										<Link to='/services/me' className='navbar-item'>
+											Your Services
+										</Link>
+										<Link to='/offers/sent' className='navbar-item'>
+											Sent Offers
+										</Link>
+										<Link to='/offers/recieved' className='navbar-item'>
+											Recieved Offers
+										</Link>
+									</div>
 								</div>
-							</div>
+								<div className='navbar-item has-dropdown is-hoverable'>
+									<a className='navbar-link'>Messages</a>
+									<div className='navbar-dropdown navbar-dropdown-messages'>
+										{user.messages && <RecievedMessages />}
+									</div>
+								</div>
+							</React.Fragment>
 						)}
 						{!isAuth && (
 							<React.Fragment>
