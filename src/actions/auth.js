@@ -12,11 +12,14 @@ export const login = (loginData) => {
 	return api.login({ ...loginData });
 };
 
-export const logout = () => (dispatch) => {
-	return api
+export const logout = (uid) => (dispatch) =>
+	api
 		.logout()
+		.then((_) => {
+			const userStatusDatabaseRef = api.createFirebaseRef('status', uid);
+			return userStatusDatabaseRef.set(api.isOfflineForDatabase);
+		})
 		.then((_) => dispatch({ user: null, type: SET_AUTH_USER }));
-};
 
 export const onAuthStateChange = (onAuthCallback) => {
 	return api.onAuthStateChange(onAuthCallback);

@@ -1,13 +1,29 @@
 import React from 'react';
-//import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import withAuthorization from '../../components/hoc/withAuthorization';
+import { withRouter } from 'react-router-dom';
+import { subToCollaboration } from '../../actions/index';
 
 class CollaborationDetail extends React.Component {
+	componentDidMount() {
+		const { id } = this.props.match.params;
+		this.watchCollabChanges(id);
+	}
+
+	watchCollabChanges = (id) => {
+		this.unsubscribeFromCollab = this.props.subToCollaboration(id);
+	};
+
+	componentWillUnmount() {
+		this.unsubscribeFromCollab();
+	}
+
 	render() {
+		const { collaboration } = this.props;
 		return (
 			<div className='content-wrapper'>
 				<div className='root'>
-					{/* Body */}
+					<h1 className='title'>{collaboration.title}</h1>
 					<div className='body'>
 						<div className='viewListUser'>
 							<div className='viewWrapItem'>
@@ -67,4 +83,16 @@ class CollaborationDetail extends React.Component {
 	}
 }
 
-export default withAuthorization(CollaborationDetail);
+const mapDispatchToProps = () => ({
+	subToCollaboration
+});
+
+const mapStateToProps = (state) => {
+	return {
+		collaboration: state.collaboration.joined,
+		joinedPeople: state.collaboration.joinedPeople
+	};
+};
+
+const Collaboration = withAuthorization(withRouter(CollaborationDetail));
+export default connect(mapStateToProps, mapDispatchToProps())(Collaboration);

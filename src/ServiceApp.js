@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import Spinner from './components/Spinner';
@@ -8,19 +8,26 @@ import Navbar from './components/Navbar';
 import { logout } from './actions/index';
 import Routes from './Routes';
 
-export class ServiceApp extends Component {
-	handleLogout = () => this.props.dispatch(logout());
+class ServiceApp extends React.Component {
+	handleLogout = (uid) => this.props.dispatch(logout(uid));
 
-	renderApplication(auth) {
-		return (
-			<React.Fragment>
-				<Navbar logout={this.handleLogout} auth={auth} id='navbar-main' />
-				<Navbar logout={this.handleLogout} auth={auth} id='navbar-clone' />
-				<Sidebar />
-				<Routes />
-			</React.Fragment>
-		);
-	}
+	renderApplication = (auth) => (
+		<React.Fragment>
+			<Navbar
+				loadFresh
+				id='navbar-main'
+				logout={() => this.handleLogout(auth.user.uid)}
+				auth={auth}
+			/>
+			<Navbar
+				auth={auth}
+				logout={() => this.handleLogout(auth.user.uid)}
+				id='navbar-clone'
+			/>
+			<Sidebar />
+			<Routes />
+		</React.Fragment>
+	);
 
 	render() {
 		const { auth } = this.props;
@@ -28,10 +35,6 @@ export class ServiceApp extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		auth: state.auth
-	};
-};
+const mapStateToProps = (state) => ({ auth: state.auth });
 
 export default connect(mapStateToProps)(ServiceApp);
