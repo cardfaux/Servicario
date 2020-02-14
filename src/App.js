@@ -8,7 +8,8 @@ import ServiceApp from './ServiceApp';
 import {
 	onAuthStateChange,
 	storeAuthUser,
-	subscribeToMessages
+	subscribeToMessages,
+	checkUserConnection
 } from './actions/index';
 
 const store = createdStore();
@@ -19,6 +20,7 @@ class App extends React.Component {
 			store.dispatch(storeAuthUser(authUser));
 
 			if (authUser) {
+				checkUserConnection(authUser.uid);
 				this.unsubscribeMessages = store.dispatch(
 					subscribeToMessages(authUser.uid)
 				);
