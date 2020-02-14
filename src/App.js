@@ -25,6 +25,10 @@ class App extends React.Component {
 					subscribeToMessages(authUser.uid)
 				);
 			}
+
+			if (!authUser) {
+				this.unsubscribeMessages && this.unsubscribeMessages();
+			}
 		});
 	}
 

@@ -1,26 +1,19 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
-import { register } from '../actions/index';
+/* eslint jsx-a11y/anchor-is-valid: 0 */
+
+import React from 'react';
 import RegisterForm from '../components/auth/RegisterForm';
+import { register } from '../actions/index';
 import { useToasts } from 'react-toast-notifications';
 import onlyGuest from '../components/hoc/onlyGuest';
 
-import { Redirect } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom'
 
 const Register = (props) => {
-	const [redirect, setRedirect] = useState(false);
 	const { addToast } = useToasts();
 
 	const registerUser = (userData) => {
 		register(userData).then(
-			(_) => {
-				setRedirect(true);
-				addToast('You Have Successfully Registered', {
-					appearance: 'success',
-					autoDismiss: true,
-					autoDismissTimeout: 3000
-				});
-			},
+			(_) => () => {},
 			(errorMessage) =>
 				addToast(errorMessage, {
 					appearance: 'error',
@@ -30,10 +23,6 @@ const Register = (props) => {
 		);
 	};
 
-	if (redirect) {
-		return <Redirect to='/' />;
-	}
-
 	return (
 		<div className='auth-page'>
 			<div className='container has-text-centered'>
@@ -42,7 +31,7 @@ const Register = (props) => {
 					<p className='subtitle has-text-grey'>Please Register to proceed.</p>
 					<div className='box'>
 						<figure className='avatar'>
-							<img src='https://placehold.it/128x128' alt='description' />
+							<img src='https://placehold.it/128x128' alt='Company Logo' />
 						</figure>
 						<RegisterForm onRegister={registerUser} />
 					</div>
@@ -57,4 +46,5 @@ const Register = (props) => {
 	);
 };
 
+// export default withRouter(Register)
 export default onlyGuest(Register);
