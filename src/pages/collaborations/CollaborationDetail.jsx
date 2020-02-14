@@ -2,7 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import withAuthorization from '../../components/hoc/withAuthorization';
 import { withRouter } from 'react-router-dom';
-import { subToCollaboration, joinCollaboration } from '../../actions/index';
+import {
+	subToCollaboration,
+	joinCollaboration,
+	leaveCollaboration,
+	subToProfile
+} from '../../actions/index';
 import JoinedPeople from '../../components/collaboration/JoinedPeople';
 
 class CollaborationDetail extends React.Component {
@@ -15,11 +20,31 @@ class CollaborationDetail extends React.Component {
 	}
 
 	watchCollabChanges = (id) => {
-		this.unsubscribeFromCollab = this.props.subToCollaboration(id);
+		this.unsubscribeFromCollab = this.props.subToCollaboration(
+			id,
+			({ joinedPeople }) => {
+				this.watchJoinedPeopleChanges(joinedPeople.map((jp) => jp.id));
+			}
+		);
+	};
+
+	watchJoinedPeopleChanges = (ids) => {
+		this.peopleWatchers = {};
+		ids.forEach((id) => {
+			this.peopleWatchers[id] = this.props.subToProfile(id);
+		});
 	};
 
 	componentWillUnmount() {
+		const { id } = this.props.match.params;
+		const { user } = this.props.auth;
 		this.unsubscribeFromCollab();
+
+		Object.keys(this.peopleWatchers).forEach((uid) =>
+			this.peopleWatchers[uid]()
+		);
+
+		leaveCollaboration(id, user.uid);
 	}
 
 	render() {
@@ -78,7 +103,8 @@ class CollaborationDetail extends React.Component {
 }
 
 const mapDispatchToProps = () => ({
-	subToCollaboration
+	subToCollaboration,
+	subToProfile
 });
 
 const mapStateToProps = (state) => {

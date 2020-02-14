@@ -64,3 +64,23 @@ export const joinCollaboration = (collabId, uid) => {
 			joinedPeople: firebase.firestore.FieldValue.arrayUnion(userRef)
 		});
 };
+
+export const leaveCollaboration = (collabId, uid) => {
+	const userRef = createRef('profiles', uid);
+
+	return db
+		.collection('collaborations')
+		.doc(collabId)
+		.update({
+			joinedPeople: firebase.firestore.FieldValue.arrayRemove(userRef)
+		});
+};
+
+export const subToProfile = (uid, done) =>
+	db
+		.collection('profiles')
+		.doc(uid)
+		.onSnapshot((snapshot) => {
+			const user = { id: snapshot.id, ...snapshot.data() };
+			done(user);
+		});
