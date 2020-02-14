@@ -29,6 +29,8 @@ $border-grey: #ccc;
 $muted-grey: #999;
 $section-grey: #fbfbfb;
 
+@import './styles/collaborations.scss';
+
 .navbar-dropdown-messages {
   min-width: 320px !important;
 

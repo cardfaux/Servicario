@@ -14,6 +14,7 @@ import UserServices from './pages/services/UserServices';
 import SentOffers from './pages/offers/SentOffers';
 import RecievedOffers from './pages/offers/RecievedOffers';
 import RecievedCollaborations from './pages/collaborations/RecievedCollaborations';
+import CollaborationDetail from './pages/collaborations/CollaborationDetail';
 
 const Routes = () => {
 	return (
@@ -29,6 +30,9 @@ const Routes = () => {
 			</Route>
 			<Route path='/collaborations/me'>
 				<RecievedCollaborations />
+			</Route>
+			<Route path='/collaborations/:id'>
+				<CollaborationDetail />
 			</Route>
 			<Route path='/offers/sent'>
 				<SentOffers />

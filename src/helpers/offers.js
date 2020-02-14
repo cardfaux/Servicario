@@ -14,6 +14,7 @@ export const newCollaboration = ({
 		toUser: toUser.uid,
 		fromUser: fromUser.uid,
 		fromOffer: id,
+		status: 'pending',
 		createdAt: Timestamp.fromDate(new Date())
 	};
 };
