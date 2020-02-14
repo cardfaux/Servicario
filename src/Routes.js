@@ -13,6 +13,7 @@ import ServiceCreate from './pages/services/ServiceCreate';
 import UserServices from './pages/services/UserServices';
 import SentOffers from './pages/offers/SentOffers';
 import RecievedOffers from './pages/offers/RecievedOffers';
+import RecievedCollaborations from './pages/collaborations/RecievedCollaborations';
 
 const Routes = () => {
 	return (
@@ -25,6 +26,9 @@ const Routes = () => {
 			</Route>
 			<Route path='/login'>
 				<Login />
+			</Route>
+			<Route path='/collaborations/me'>
+				<RecievedCollaborations />
 			</Route>
 			<Route path='/offers/sent'>
 				<SentOffers />

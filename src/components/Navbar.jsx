@@ -118,6 +118,9 @@ const Navbar = (props) => {
 										<Link to='/offers/recieved' className='navbar-item'>
 											Recieved Offers
 										</Link>
+										<Link to='/collaborations/me' className='navbar-item'>
+											Recieved Collaborations
+										</Link>
 									</div>
 								</div>
 								<div className='navbar-item has-dropdown is-hoverable'>
