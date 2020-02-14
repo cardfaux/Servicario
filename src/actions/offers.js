@@ -1,9 +1,13 @@
-import { FETCH_OFFERS_SUCCESS, CHANGE_OFFER_STATUS } from '../types/index';
+import {
+	FETCH_OFFERS_SUCCESS,
+	CHANGE_OFFER_STATUS,
+	REQUEST_RESOURCE,
+	FETCH_RESOURCE_SUCCESS
+} from '../types/index';
+
 import * as api from '../api/index';
 
-export const createOffer = (offer) => {
-	return api.createOffer(offer);
-};
+export const createOffer = (offer) => api.createOffer(offer);
 
 const extractDataFromOffer = async (offer, userType) => {
 	const service = await offer.service.get();
@@ -17,10 +21,13 @@ const extractDataFromOffer = async (offer, userType) => {
 };
 
 export const fetchSentOffers = (userId) => (dispatch) => {
+	dispatch({ type: REQUEST_RESOURCE, resource: 'offers' });
 	return api.fetchSentOffers(userId).then(async (offers) => {
 		const mappedOffers = await Promise.all(
 			offers.map((offer) => extractDataFromOffer(offer, 'toUser'))
 		);
+
+		dispatch({ type: FETCH_RESOURCE_SUCCESS, resource: 'offers' });
 		dispatch({
 			type: FETCH_OFFERS_SUCCESS,
 			offers: mappedOffers,
@@ -31,48 +38,48 @@ export const fetchSentOffers = (userId) => (dispatch) => {
 };
 
 export const fetchRecievedOffers = (userId) => (dispatch) => {
+	dispatch({ type: REQUEST_RESOURCE, resource: 'offers' });
 	return api.fetchRecievedOffers(userId).then(async (offers) => {
 		const mappedOffers = await Promise.all(
 			offers.map((offer) => extractDataFromOffer(offer, 'fromUser'))
 		);
+
+		dispatch({ type: FETCH_RESOURCE_SUCCESS, resource: 'offers' });
 		dispatch({
 			type: FETCH_OFFERS_SUCCESS,
 			offers: mappedOffers,
-			offersType: 'recieved'
+			offersType: 'received'
 		});
 		return mappedOffers;
 	});
 };
 
-export const acceptOffer = (offerId) => (dispatch) => {
-	return api.changeOfferStatus(offerId, 'accepted').then((_) =>
+export const acceptOffer = (offerId) => (dispatch) =>
+	api.changeOfferStatus(offerId, 'accepted').then((_) =>
 		dispatch({
 			type: CHANGE_OFFER_STATUS,
 			status: 'accepted',
 			offerId,
-			offersType: 'recieved'
+			offersType: 'received'
 		})
 	);
-};
 
-export const declineOffer = (offerId) => (dispatch) => {
-	return api.changeOfferStatus(offerId, 'declined').then((_) =>
+export const declineOffer = (offerId) => (dispatch) =>
+	api.changeOfferStatus(offerId, 'declined').then((_) =>
 		dispatch({
 			type: CHANGE_OFFER_STATUS,
+			offerId,
 			status: 'declined',
-			offerId,
-			offersType: 'recieved'
+			offersType: 'received'
 		})
 	);
-};
 
-export const changeOfferStatus = (offerId, status) => (dispatch) => {
-	return api.changeOfferStatus(offerId, status).then((_) =>
+export const changeOfferStatus = (offerId, status) => (dispatch) =>
+	api.changeOfferStatus(offerId, status).then((_) =>
 		dispatch({
 			type: CHANGE_OFFER_STATUS,
-			status,
 			offerId,
-			offersType: 'recieved'
+			status,
+			offersType: 'received'
 		})
 	);
-};

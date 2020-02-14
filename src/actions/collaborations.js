@@ -3,9 +3,11 @@ import {
 	FETCH_USER_MESSAGES_SUCCESS,
 	SET_COLLABORATION,
 	SET_COLLABORATION_JOINED_PEOPLE,
-	UPDATE_COLLABORATION_USER
-} from '../types/index';
-import * as api from '../api/index';
+	UPDATE_COLLABORATION_USER,
+	SET_COLLABORATION_MESSAGES,
+	RESET_COLLABORATION_MESSAGES
+} from '../types';
+import * as api from '../api';
 
 export const collaborate = ({ collaboration, message }) => (dispatch) =>
 	api.createCollaboration(collaboration).then((collabId) => {
@@ -61,3 +63,15 @@ export const subToProfile = (uid) => (dispatch) =>
 	api.subToProfile(uid, (user) =>
 		dispatch({ type: UPDATE_COLLABORATION_USER, user })
 	);
+
+export const sendChatMessage = (message) => api.sendChatMessage(message);
+
+export const subToMessages = (collabId) => (dispatch) => {
+	dispatch({ type: RESET_COLLABORATION_MESSAGES });
+	return api.subToMessages(collabId, (messages) => {
+		dispatch({ type: SET_COLLABORATION_MESSAGES, messages });
+	});
+};
+
+export const startCollaboration = (collabId, expiresAt) =>
+	api.startCollaboration(collabId, expiresAt);

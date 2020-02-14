@@ -1,11 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { withToastManager } from 'react-toast-notifications';
 import withAuthorization from '../../components/hoc/withAuthorization';
+import { withToastManager } from 'react-toast-notifications';
 import ServiceItem from '../../components/service/ServiceItem';
-
+import { connect } from 'react-redux';
+import { newMessage, newCollaboration } from '../../helpers/offers';
 import { fetchSentOffers, collaborate } from '../../actions/index';
-import { newCollaboration, newMessage } from '../../helpers/offers';
+
+import Spinner from '../../components/Spinner';
 
 class SentOffers extends React.Component {
 	componentDidMount() {
@@ -23,20 +24,29 @@ class SentOffers extends React.Component {
 		const message = newMessage({ offer, fromUser: user });
 
 		this.props.collaborate({ collaboration, message }).then((_) =>
-			toastManager.add('Collaboration Was Successfully Created!', {
+			toastManager.add('Collaboration was Created!', {
 				appearance: 'success',
-				autoDismiss: true,
-				autoDismissTimeout: 3000
+				autoDismiss: true
 			})
 		);
 	};
 
 	render() {
-		const { offers } = this.props;
+		const { offers, isFetching } = this.props;
+
+		if (isFetching) {
+			return <Spinner />;
+		}
+
 		return (
 			<div className='container'>
 				<div className='content-wrapper'>
 					<h1 className='title'>Sent Offers</h1>
+					{!isFetching && offers.length === 0 && (
+						<span className='tag is-warning is-large'>
+							You don't have any send offers :(
+						</span>
+					)}
 					<div className='columns'>
 						{offers.map((offer) => (
 							<div key={offer.id} className='column is-one-third'>
@@ -83,8 +93,10 @@ class SentOffers extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ offers }) => ({ offers: offers.sent });
-
+const mapStateToProps = ({ offers }) => ({
+	offers: offers.sent,
+	isFetching: offers.isFetching
+});
 const SentOffersWithToast = withToastManager(SentOffers);
 
 export default withAuthorization(

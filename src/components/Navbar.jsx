@@ -1,12 +1,23 @@
 /* eslint jsx-a11y/anchor-is-valid: 0 */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import RecievedMessages from './RecievedMessages';
+import ReceivedMessages from './RecievedMessages';
 
 const Navbar = (props) => {
 	const { user, isAuth } = props.auth;
-	const { logout } = props;
+	const { logout, loadFresh } = props;
+
+	useEffect(() => {
+		if (!loadFresh) {
+			return;
+		}
+
+		const script = document.createElement('script');
+		script.src = `${process.env.PUBLIC_URL}/js/fresh.js`;
+		script.async = true;
+		document.body.appendChild(script);
+	}, [loadFresh]);
 
 	return (
 		<nav
@@ -17,7 +28,7 @@ const Navbar = (props) => {
 		>
 			<div className='container'>
 				<div className='navbar-brand'>
-					<Link className='navbar-item' to='/'>
+					<Link to='/' className='navbar-item'>
 						<div className='title'>Servicario</div>
 					</Link>
 
@@ -86,7 +97,7 @@ const Navbar = (props) => {
 					</div>
 
 					<div className='navbar-end'>
-						{user && (
+						{user.uid && (
 							<div className='navbar-item is-secondary user-welcome'>
 								{`Hi ${user.fullName}`}
 							</div>
@@ -94,17 +105,13 @@ const Navbar = (props) => {
 						<Link to='/' className='navbar-item is-secondary'>
 							Home
 						</Link>
-						<Link to='/services' className='navbar-item is-secondary'>
-							Services
-						</Link>
 						<Link to='/faq' className='navbar-item is-secondary'>
-							FAQ
+							Faq
 						</Link>
 						{isAuth && (
 							<React.Fragment>
 								<div className='navbar-item has-dropdown is-hoverable'>
 									<a className='navbar-link'>Manage</a>
-
 									<div className='navbar-dropdown'>
 										<Link to='/services/new' className='navbar-item'>
 											Create Service
@@ -115,18 +122,18 @@ const Navbar = (props) => {
 										<Link to='/offers/sent' className='navbar-item'>
 											Sent Offers
 										</Link>
-										<Link to='/offers/recieved' className='navbar-item'>
-											Recieved Offers
+										<Link to='/offers/received' className='navbar-item'>
+											Received Offers
 										</Link>
 										<Link to='/collaborations/me' className='navbar-item'>
-											Recieved Collaborations
+											Received Collaborations
 										</Link>
 									</div>
 								</div>
 								<div className='navbar-item has-dropdown is-hoverable'>
 									<a className='navbar-link'>Messages</a>
 									<div className='navbar-dropdown navbar-dropdown-messages'>
-										{user.messages && <RecievedMessages />}
+										{user.messages && <ReceivedMessages />}
 									</div>
 								</div>
 							</React.Fragment>
@@ -138,11 +145,11 @@ const Navbar = (props) => {
 									className='navbar-item is-secondary modal-trigger'
 									data-modal='auth-modal'
 								>
-									Log in
+									Login
 								</Link>
 								<Link to='/register' className='navbar-item'>
 									<span className='button signup-button rounded secondary-btn raised'>
-										Sign up
+										Register
 									</span>
 								</Link>
 							</React.Fragment>
@@ -150,7 +157,7 @@ const Navbar = (props) => {
 						{isAuth && (
 							<div onClick={logout} className='navbar-item'>
 								<span className='button signup-button is-danger rounded raised'>
-									Log Out
+									Logout
 								</span>
 							</div>
 						)}

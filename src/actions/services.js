@@ -24,7 +24,7 @@ export const fetchUserServices = (userId) => (dispatch) =>
 			dispatch({ type: FETCH_USER_SERVICES_SUCCESS, services })
 		);
 
-export const fetchServicesById = (serviceId) => (dispatch, getState) => {
+export const fetchServiceById = (serviceId) => (dispatch, getState) => {
 	const lastService = getState().selectedService.item;
 
 	if (lastService.id && lastService.id === serviceId) {

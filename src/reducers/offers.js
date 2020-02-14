@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import { isFetching } from './common';
 import {
-	FETCH_OFFERS_SUCCESS,
 	CHANGE_OFFER_STATUS,
+	FETCH_OFFERS_SUCCESS,
 	COLLABORATION_CREATED_FROM_OFFER
 } from '../types/index';
 
@@ -10,6 +11,7 @@ const createOfferList = (offersType) => {
 		if (action.offersType !== offersType) {
 			return state;
 		}
+
 		switch (action.type) {
 			case FETCH_OFFERS_SUCCESS:
 				return action.offers;
@@ -32,8 +34,9 @@ const createOfferList = (offersType) => {
 };
 
 const offers = combineReducers({
-	recieved: createOfferList('recieved'),
-	sent: createOfferList('sent')
+	received: createOfferList('received'),
+	sent: createOfferList('sent'),
+	isFetching: isFetching('offers')
 });
 
 export default offers;

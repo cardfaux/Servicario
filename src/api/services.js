@@ -1,9 +1,6 @@
-import 'firebase/auth';
 import db from '../db/index';
 
-//const createRef = (collection, docId) => db.doc(`${collection}/` + docId);
-
-// ------------------------------------SERVICES ---------------------------------------------
+import { createRef } from './index';
 
 export const fetchServiceById = (serviceId) =>
 	db
@@ -12,8 +9,8 @@ export const fetchServiceById = (serviceId) =>
 		.get()
 		.then((snapshot) => ({ id: snapshot.id, ...snapshot.data() }));
 
-export const fetchServices = () => {
-	return db
+export const fetchServices = () =>
+	db
 		.collection('services')
 		.get()
 		.then((snapshot) => {
@@ -21,16 +18,14 @@ export const fetchServices = () => {
 				id: doc.id,
 				...doc.data()
 			}));
-
 			return services;
 		});
-};
 
 export const fetchUserServices = (userId) => {
-	//const userRef = createRef('profiles', userId);
+	const userRef = createRef('profiles', userId);
 	return db
 		.collection('services')
-		.where('user', '==', userId)
+		.where('user', '==', userRef)
 		.get()
 		.then((snapshot) => {
 			const services = snapshot.docs.map((doc) => ({
